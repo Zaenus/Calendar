@@ -1,7 +1,9 @@
 const inputField = document.querySelector(".input-field textarea"),
 todoList = document.querySelector(".todolist"),
 pendingNum = document.querySelector(".pending-num"),
-clearButton = document.querySelector(".clear-button");
+clearButton = document.querySelector(".clear-button"),
+calendarShow = document.querySelector(".wrapper"),
+calendar = document.querySelector(".calendar-icon");
 
 function allTasks(){
     let tasks = document.querySelectorAll(".pending");
@@ -50,4 +52,12 @@ function deleteTask(e){
 clearButton.addEventListener("click", () =>{
     todoList.innerHTML = "";
     allTasks();
+});
+
+calendar.addEventListener("click", () => {
+    if (calendarShow.style.display === "block") {
+        calendarShow.style.display = "none";
+    } else {
+        calendarShow.style.display = "block";
+    }
 });

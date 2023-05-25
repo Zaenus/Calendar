@@ -124,6 +124,20 @@ textarea::-webkit-scrollbar{
 .clear-button:hover{
     background-color: #0e4bf1;
 }
+.calendar{
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: -95px;
+}
+.calendar-icon{
+    margin-left: 63%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.calendar-icon:hover{
+    opacity: 0.5;
+}
 @media screen and (max-width: 350px){
     .container{
         padding: 25px 10px;

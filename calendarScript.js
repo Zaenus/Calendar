@@ -1,12 +1,13 @@
 const daysTag = document.querySelector(".days"),
 currentDate = document.querySelector(".current-date"),
-prevNextIcon = document.querySelectorAll(".icons span"),
-selectDate = document.querySelector(".nDay");
+prevNextIcon = document.querySelectorAll(".icons span");
 
 // getting new date, current year and month
 let date = new Date(),
 currYear = date.getFullYear(),
 currMonth = date.getMonth();
+
+let tasks = {};
 
 // storing full name of all months in array
 const months = ["January", "February", "March", "April", "May", "June", "July",
@@ -26,8 +27,9 @@ const renderCalendar = () => {
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
         // adding active class to li if the current day, month, and year matched
         let isToday = i === date.getDate() && currMonth === new Date().getMonth() 
-                     && currYear === new Date().getFullYear() ? "active" : "nDay";
-        liTag += `<li class="${isToday}">${i}</li>`;
+                     && currYear === new Date().getFullYear() ? "active" : "day";
+        let taskClass = tasks[`${i}-${currMonth}-${currYear}`] ? "has-task" : "";
+        liTag += `<li class="${isToday} ${taskClass}" data-date="${i}-${currMonth}-${currYear}">${i}</li>`;
     }
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
@@ -35,6 +37,25 @@ const renderCalendar = () => {
     }
     currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
     daysTag.innerHTML = liTag;
+    
+    const dayElements = document.querySelectorAll(".day");
+    dayElements.forEach(day => {
+      day.addEventListener("click", () => {
+        day.classList.toggle("active");
+    
+        // Get the selected date from the data-date attribute
+        const selectedDate = day.getAttribute("data-date");
+    
+        // Add or remove the task based on the selected date's presence in the tasks object
+        if (tasks[selectedDate]) {
+          delete tasks[selectedDate];
+          day.classList.remove("has-task");
+        } else {
+          tasks[selectedDate] = true;
+          day.classList.add("has-task");
+        }
+      });
+    });
 }
 renderCalendar();
 
@@ -52,10 +73,6 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
             date = new Date(); // pass the current date as date value
         }
         renderCalendar(); // calling renderCalendar function
-    });
-    
-    daysTag.addEventListener("click", () => {
-        selectDate.classList.toggle("active");
     });
 
 });
